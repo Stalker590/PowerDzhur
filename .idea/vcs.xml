@@ -5,6 +5,5 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/PowerDzhur-backend" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/PowerDzhur-frontend" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/PowerDzhur-frontend/PowerDzhur-frontend-client" vcs="Git" />
   </component>
 </project>
