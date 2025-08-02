@@ -1,1 +1,6 @@
 flet
+requests
+psycopg2
+fastapi
+pydantic
+dotenv

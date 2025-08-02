@@ -2,8 +2,6 @@ import flet as ft
 from pages.show_home import show_home
 from pages.show_about import show_about
 from pages.account import account
-import requests
-
 
 def main(page: ft.Page):
     page.title = "PowerDzhur"

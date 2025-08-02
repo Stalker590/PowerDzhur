@@ -1,5 +1,5 @@
 import flet as ft
-from .register import register as reg
+from .register import register
 
 
 def account(page: ft.Page,content: ft.Column):
@@ -18,7 +18,7 @@ def account(page: ft.Page,content: ft.Column):
                 ft.Row(
                     [
                         ft.ElevatedButton("Авторизуватись", width=150),
-                        ft.ElevatedButton("Зареєструватись", width=150, on_click=lambda e: reg(page, content)),
+                        ft.ElevatedButton("Зареєструватись", width=150, on_click=lambda e: register(page, content)),
                     ],
                     alignment=ft.MainAxisAlignment.CENTER,
                     spacing=20
