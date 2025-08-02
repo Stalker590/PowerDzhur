@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 from pydantic import BaseModel
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.dirname("C:\My_Projects\Main_PowerDzhur\PowerDzhur\PowerDzhur-backend\Databases")))
+sys.path.append(os.path.abspath(os.path.dirname("/PowerDzhur_backend\Databases")))
 from Databases import database_users
 from IP_ID import get_ip_info  # Припускаю, що ця функція приймає IP і повертає dict з country, region, timezone
 
