@@ -2,7 +2,9 @@ from fastapi import FastAPI, Request
 from pydantic import BaseModel
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.dirname("/PowerDzhur_backend\Databases")))
+BASE_DIR = os.path.dirname(os.path.abspath("C:\My_Projects\Main_PowerDzhur\PowerDzhur\PowerDzhur_backend"))  # Поточна папка де main.py
+sys.path.append(os.path.join(BASE_DIR, "Databases"))   # додаємо Databases в шлях
+sys.path.append(os.path.join(BASE_DIR, ".."))          # якщо config лежить на рівень вище
 from Databases import database_users
 from IP_ID import get_ip_info  # Припускаю, що ця функція приймає IP і повертає dict з country, region, timezone
 

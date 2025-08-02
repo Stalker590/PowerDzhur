@@ -2,10 +2,9 @@ import psycopg2
 import sys
 import os
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from config import DB_USER, DB_PASSWORD, DB_NAME, DB_HOST, DB_PORT
-
-
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # Поточний файл
+sys.path.append(os.path.join(BASE_DIR, "..", ".."))  # Додаємо шлях до config
+from config import DB_PASSWORD,DB_NAME,DB_USER,DB_HOST,DB_PORT
 
 class DataBaseUsers:
     def __init__(self):
@@ -34,5 +33,3 @@ class DataBaseUsers:
 
     def __del__(self):
         self.close()
-
-db = DataBaseUsers()
