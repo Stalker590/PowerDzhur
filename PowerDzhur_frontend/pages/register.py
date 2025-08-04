@@ -1,5 +1,5 @@
 import flet as ft
-import requests
+import httpx
 
 def register(page: ft.Page,content: ft.Column):
     # Зберігаємо кожне поле в змінну
@@ -19,24 +19,45 @@ def register(page: ft.Page,content: ft.Column):
         page.snack_bar.open = True
         page.update()
 
+    def show_error_message(msg_text):
+        page.snack_bar = ft.SnackBar(
+            content=ft.Text(msg_text, color="black"),
+            bgcolor="#FF5252",  # Яскравий червоний
+            duration=3000,  # 3 секунди
+            show_close_icon=False,
+            behavior=ft.SnackBarBehavior.FLOATING
+        )
+        page.snack_bar.open = True
+        page.update()
+
     # Обробник кнопки підтвердження
     def on_submit(e):
+        print("sigma")
         data = {
             "name": name_field.value,
             "surname": surname_field.value,
             "email": email_field.value,
-            "phone": phone_field.value
+            "phone": phone_field.value,
         }
-
         try:
-            response = requests.post("http://127.0.0.1:8000/register", json=data)
+            print("http negr")
+            response = httpx.post("http://127.0.0.1:8000/register", json=data)
+            print(f"Response status code: {response.status_code}")
+            print(f"Response text: {response.text}")
             if response.status_code == 200:
-                show_success_message("Успішне підтвердження!")
+                show_success_message("Реєстрація успішна!")
+                print("zaebon")
             else:
-                show_success_message("Сталася помилка при відправці!")
-        except Exception as err:
-            show_success_message("Не вдалося з'єднатись із сервером.")
-            print("Помилка:", err)
+                show_error_message(f"Помилка реєстрації: {response.status_code} - {response.text}")
+                print("pizda")
+        except httpx.RequestError as e:
+            show_error_message(f"Помилка мережі: {e}")
+            print("boomer")
+        except Exception as e:
+            show_error_message(f"Невідома помилка: {e}")
+            print("ebat suka")
+
+        page.update()
 
     # Очищаємо контент
     content.controls.clear()
@@ -71,3 +92,8 @@ def register(page: ft.Page,content: ft.Column):
     )
 
     page.update()
+
+    return ft.View(
+        "/register",
+        [ft.AppBar(title=ft.Text("Реєстрація"), bgcolor=ft.Colors.ON_SURFACE_VARIANT), content]
+    )

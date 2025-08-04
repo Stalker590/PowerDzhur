@@ -2,6 +2,7 @@ import requests
 
 
 def get_ip_info(ip_address: str) -> dict:
+    print(ip_address)
     try:
         response = requests.get(
             f"http://ip-api.com/json/{ip_address}?fields=status,message,country,regionName,timezone,query")

@@ -2,10 +2,10 @@ from fastapi import FastAPI, Request
 from pydantic import BaseModel
 import sys
 import os
-BASE_DIR = os.path.dirname(os.path.abspath("C:\My_Projects\Main_PowerDzhur\PowerDzhur\PowerDzhur_backend"))  # Поточна папка де main.py
-sys.path.append(os.path.join(BASE_DIR, "Databases"))   # додаємо Databases в шлях
-sys.path.append(os.path.join(BASE_DIR, ".."))          # якщо config лежить на рівень вище
-from Databases import database_users
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(BASE_DIR, "Databases"))
+sys.path.append(os.path.join(BASE_DIR, ".."))
+from PowerDzhur_backend.Databases import database_users
 from IP_ID import get_ip_info  # Припускаю, що ця функція приймає IP і повертає dict з country, region, timezone
 
 app = FastAPI()
@@ -19,38 +19,21 @@ class UserData(BaseModel):
 
 @app.post("/register")
 async def register_user(user: UserData, request: Request):
+    print("Received registration request")
     client_host = request.client.host  # IP користувача
     ip_info = get_ip_info(client_host)  # Має повертати dict з country, region, timezone
 
     db1 = database_users.DataBaseUsers()
-    db1.execute_query("""
-        CREATE TABLE IF NOT EXISTS users (
-            id SERIAL PRIMARY KEY,
-            name TEXT,
-            surname TEXT,
-            email TEXT,
-            phone TEXT,
-            country TEXT,
-            region TEXT,
-            timezone TEXT
-        );
-    """)
 
     # Записуємо дані в БД
+    print("Всьо заєбон,табличка пішла")
     insert_query = """
         INSERT INTO users (name, surname, email, phone, country, region, timezone)
         VALUES (%s, %s, %s, %s, %s, %s, %s)
     """
-    db1.execute_query(insert_query, (
-        user.name,
-        user.surname,
-        user.email,
-        user.phone,
-        ip_info.get("country", "Unknown"),
-        ip_info.get("region", "Unknown"),
-        ip_info.get("timezone", "Unknown")
-    ))
+    print("Табличка э")
 
+    print("Всьо,запис є")
     print(f"📩 Новий користувач: {user}")
     print(f"🌍 IP користувача: {client_host}")
     print(f"🗺️ Інформація про IP: {ip_info}")
@@ -61,6 +44,11 @@ async def register_user(user: UserData, request: Request):
         "ip": client_host,
         "ip_info": ip_info
     }
+
+@app.get("/")
+async def root():
+    print("🔥 Вхідний POST /register")
+    return {"message": "Привіт, все працює"}
 
 
 #uvicorn main:app --reload
